@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        input {
+            margin: 5px 0;
+            padding: 12px;
+            width: 100%;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.3em;
+            color: #333;
+        }
+
+        /* Responsive design */
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            button {
+                padding: 10px 15px;
+            }
+
+            input {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Age Calculator</h1>
+        <form id="ageForm">
+            <label for="day">Day:</label>
+            <input type="number" id="day" name="day" min="1" max="31" required>
+            <label for="month">Month:</label>
+            <input type="number" id="month" name="month" min="1" max="12" required>
+            <label for="year">Year:</label>
+            <input type="number" id="year" name="year" min="1900" max="2100" required>
+            <button type="submit">Calculate Age</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('ageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let day = parseInt(document.getElementById('day').value);
+            let month = parseInt(document.getElementById('month').value);
+            let year = parseInt(document.getElementById('year').value);
+
+            let today = new Date();
+            let birthDate = new Date(year, month - 1, day);
+
+            let ageYears = today.getFullYear() - birthDate.getFullYear();
+            let ageMonths = today.getMonth() - birthDate.getMonth();
+            let ageDays = today.getDate() - birthDate.getDate();
+
+            if (ageDays < 0) {
+                ageMonths--;
+                let lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                ageDays += lastMonth.getDate();
+            }
+
+            if (ageMonths < 0) {
+                ageYears--;
+                ageMonths += 12;
+            }
+
+            document.getElementById('result').innerText = `You are ${ageYears} years, ${ageMonths} months, and ${ageDays} days old.`;
+        });
+    </script>
+</body>
+</html>
+
+<!-- SCRIPT FOR THE VIDEO
+    
+    Here's the complete script you can use for your video to explain the Age Calculator code:
+
+---
+
+### Video Script for Explaining Age Calculator Code
+
+**[Introduction]**
+"Hi everyone, in this video, I’ll be showing you how we can create a simple age calculator using HTML, CSS, and JavaScript. 
+By the end of this video, 
+you’ll know how to calculate the exact age of a person in years, months, and days based on their birthdate.
+
+Let’s dive into the code and break it down step-by-step."
+
+---
+
+**[HTML Structure]**
+
+"First, let’s look at the structure of the HTML.
+
+At the very top, we start with the basic HTML5 template:
+```html
+<!DOCTYPE html>
+<html lang='en'>
+```
+This declares the document type and language, which is set to English.
+
+Inside the `<head>`, we have our metadata. We set the character encoding to UTF-8 
+and include the viewport meta tag to ensure our website is responsive across different screen sizes. 
+The title of the page is set to 'Age Calculator.'
+Additionally, we’re using a Google Font called 'Poppins' to give the page a modern, clean look. 
+This is done by linking the font inside the head.
+
+```html
+<link href='https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap' rel='stylesheet'>
+```
+
+Now, moving to the body, we have a container `<div>` that holds everything—the form and the result. 
+    Let’s talk about the form. The form has three input fields:
+- Day,
+- Month,
+- and Year.
+
+These fields accept numeric values for the user’s birth date. 
+Each field has a minimum and maximum value to ensure the data entered is valid:
+```html
+<input type='number' id='day' min='1' max='31' required>
+<input type='number' id='month' min='1' max='12' required>
+<input type='number' id='year' min='1900' max='2100' required>
+```
+Finally, we have a submit button to trigger the age calculation.
+
+And below the form, we have an empty `<div>` with the id 'result'. 
+This is where we will display the user’s age dynamically after the calculation."
+
+---
+
+**[CSS Styling]**
+
+"Let’s move on to the styling part of the page.
+
+We’ve styled the page with some basic CSS to make it visually appealing and responsive.
+
+We set the page to use the Poppins font and added a linear gradient background to make it look fresh:
+```css
+background: linear-gradient(120deg, #84fab0, #8fd3f4);
+```
+
+The container, which holds the form and result, has a white background with a little transparency and rounded corners 
+for a soft, modern feel. We also added a subtle shadow:
+```css
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+border-radius: 15px;
+```
+
+We included a hover effect on the container so that when the user hovers over it, it slightly enlarges to create an interactive feel:
+```css
+.container:hover {
+    transform: scale(1.05);
+}
+```
+
+The input fields and button are styled with padding and borders for a clean look. We’ve also added a nice border color 
+change when the user clicks on an input field:
+```css
+input:focus {
+    border-color: #4CAF50;
+}
+```
+
+For the submit button, we added a hover effect that changes the background color and adds a slight scaling effect:
+```css
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+```
+
+Lastly, we made sure the design is responsive using a media query, so on smaller screens, the font sizes and padding 
+adjust to ensure everything looks good."
+
+---
+
+**[JavaScript Functionality]**
+
+"Now, let’s look at the JavaScript code that makes this calculator work.
+
+We start by adding an event listener to the form to handle the 'submit' event:
+```javascript
+document.getElementById('ageForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+```
+This line of code prevents the form from refreshing the page when the submit button is clicked.
+
+Then, we grab the values from the input fields—day, month, and year—and convert them into numbers:
+```javascript
+let day = parseInt(document.getElementById('day').value);
+let month = parseInt(document.getElementById('month').value);
+let year = parseInt(document.getElementById('year').value);
+```
+
+We create two JavaScript `Date` objects:
+- `today`: This holds the current date.
+- `birthDate`: This holds the user’s birthdate based on their input.
+
+The logic for calculating the age starts by subtracting the birth year from the current year to get the age in years:
+```javascript
+let ageYears = today.getFullYear() - birthDate.getFullYear();
+```
+
+Next, we calculate the difference in months and days:
+```javascript
+let ageMonths = today.getMonth() - birthDate.getMonth();
+let ageDays = today.getDate() - birthDate.getDate();
+```
+
+Now, here’s where things get interesting. If the number of days is negative, meaning the current day is earlier in the month 
+than the birth day, we subtract one month and adjust the days by adding the number of days in the previous month:
+```javascript
+if (ageDays < 0) {
+    ageMonths--;
+    let lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+    ageDays += lastMonth.getDate();
+}
+```
+
+Similarly, if the number of months is negative, meaning the current month is earlier than the birth month, we subtract one 
+year and adjust the month count:
+```javascript
+if (ageMonths < 0) {
+    ageYears--;
+    ageMonths += 12;
+}
+```
+
+Finally, we display the result in the 'result' `<div>`:
+```javascript
+document.getElementById('result').innerText = `You are ${ageYears} years, ${ageMonths} months, and ${ageDays} days old.`;
+```
+
+This displays the exact age in years, months, and days."
+
+---
+
+**[Conclusion]**
+
+"And that’s it! With this code, we have a fully functioning age calculator that not only calculates your age in years 
+but also breaks it down into months and days. This is a great little project to practice working with dates in JavaScript 
+and a bit of dynamic styling with CSS.
+
+Thanks for watching! If you enjoyed this video, don’t forget to like and subscribe for more tutorials."
+
+---
+
+This script should give a smooth flow to your video, covering all the important aspects of the code in a clear and concise manner.
+-->
